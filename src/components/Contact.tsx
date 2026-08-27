@@ -1,12 +1,12 @@
 import { FormEvent, useState } from "react";
 import { CONTACTS } from "../data";
-import { Reveal, SectionHead, Barcode } from "./ui";
+import { Reveal, SectionHead } from "./ui";
 import { CheckIcon, ClockIcon, MailIcon, PhoneIcon, PinIcon, SendIcon } from "./Icons";
 
 type Form = { name: string; phone: string; type: string; msg: string; agree: boolean };
 type Errors = Partial<Record<keyof Form, string>>;
 
-function ContactBlock() {
+export default function Contact() {
   const [form, setForm] = useState<Form>({ name: "", phone: "", type: "Магазин / торговля", msg: "", agree: false });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
@@ -34,7 +34,7 @@ function ContactBlock() {
   ];
 
   return (
-    <section id="contacts" className="relative scroll-mt-24 overflow-hidden bg-moss py-20 text-tape md:py-28">
+    <section id="contacts" className="relative overflow-hidden bg-moss py-20 text-tape md:py-28">
       <div className="grid-paper absolute inset-0 opacity-[0.06]" aria-hidden />
       <div className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-fern/15 blur-3xl" aria-hidden />
 
@@ -169,7 +169,7 @@ function ContactBlock() {
                         type="checkbox"
                         checked={form.agree}
                         onChange={(e) => set("agree", e.target.checked)}
-                        className="mt-0.5 h-4.5 w-4.5 accent-pine"
+                        className="mt-0.5 h-4 w-4 accent-pine"
                       />
                       <span className="text-[12.5px] leading-relaxed text-ink/60">
                         Согласен(на) на обработку персональных данных в соответствии с законодательством РБ.
@@ -191,84 +191,5 @@ function ContactBlock() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-screen text-tape/70">
-      <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="font-display text-lg font-bold text-tape">
-              МИКРО<span className="text-fern">ИНВЕСТ</span>
-            </p>
-            <p className="mt-4 max-w-sm text-[13.5px] leading-relaxed text-tape/55">
-              Автоматизация торговли, кафе и ресторанов на платформе Microinvest. Программное обеспечение,
-              торговое оборудование, внедрение и поддержка — по всей Республике Беларусь.
-            </p>
-            <Barcode className="mt-7 h-9 w-44 text-tape/35" label="MICROINVEST · SINCE 2008" />
-          </div>
-          <div className="md:col-span-3">
-            <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-tape/40">Разделы</p>
-            <ul className="mt-4 space-y-2.5 text-[13.5px]">
-              {[
-                ["Решения для бизнеса", "#solutions"],
-                ["Каталог продуктов", "#catalog"],
-                ["Почему Microinvest", "#why"],
-                ["Автоматизированные объекты", "#cases"],
-                ["Вопросы и ответы", "#faq"],
-              ].map(([l, h]) => (
-                <li key={h}>
-                  <a href={h} className="transition-colors hover:text-amber">
-                    {l}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="md:col-span-4">
-            <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-tape/40">Контакты</p>
-            <ul className="mt-4 space-y-2.5 text-[13.5px]">
-              <li>
-                <a href="tel:+375296154200" className="font-bold text-tape transition-colors hover:text-amber">
-                  {CONTACTS.phone1}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${CONTACTS.email}`} className="transition-colors hover:text-amber">
-                  {CONTACTS.email}
-                </a>
-              </li>
-              <li>{CONTACTS.address}</li>
-              <li>{CONTACTS.hours}</li>
-            </ul>
-            <a
-              href="https://microinvest.by"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-block rounded-lg border border-tape/20 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-tape/70 transition-all hover:border-amber hover:text-amber"
-            >
-              microinvest.by ↗
-            </a>
-          </div>
-        </div>
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-tape/10 pt-6 font-mono text-[11px] text-tape/40">
-          <p>© 2008–2026 ООО «Микроинвест» · {CONTACTS.unp}</p>
-          <p>
-            Работает на <span className="text-fern">Microinvest Sklad Pro</span> · сделано в Беларуси
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export default function Contact() {
-  return (
-    <>
-      <ContactBlock />
-      <Footer />
-    </>
   );
 }

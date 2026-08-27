@@ -78,6 +78,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* админ-бар WP + шапка темы: якоря не прячутся под ними */
+[id] {
+  scroll-margin-top: 188px;
+}
+@media (max-width: 1024px) {
+  [id] {
+    scroll-margin-top: 172px;
+  }
+}
+
 body {
   @apply bg-paper text-ink font-body antialiased;
   overflow-x: hidden;
