@@ -4,7 +4,9 @@
   --font-display: "Unbounded", "Golos Text", sans-serif;
   --font-body: "Golos Text", "Segoe UI", Tahoma, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
+  --font-inter: "Inter", "Golos Text", system-ui, sans-serif;
 
+  /* светлая тема (Microinvest Business) */
   --color-paper: #f1f2ea;
   --color-tape: #fcfcf7;
   --color-mist: #e0e4d4;
@@ -17,6 +19,13 @@
   --color-tang: #f0641e;
   --color-amber: #ffc24b;
 
+  /* тёмная тема (NeonPOS) */
+  --color-carbon: #0d1117;
+  --color-carbon2: #161b22;
+  --color-cy: #00f5d4;
+  --color-mg: #ff006e;
+  --color-vl: #8338ec;
+
   --animate-marquee: marquee 34s linear infinite;
   --animate-blink: blink 1.05s steps(2, start) infinite;
   --animate-float: float 7s ease-in-out infinite;
@@ -25,67 +34,30 @@
   --animate-pop: pop 0.45s cubic-bezier(0.22, 1.4, 0.36, 1) both;
 
   @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
   @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+    50% { opacity: 0; }
   }
   @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0) rotate(var(--float-rot, 0deg));
-    }
-    50% {
-      transform: translateY(-12px) rotate(var(--float-rot, 0deg));
-    }
+    0%, 100% { transform: translateY(0) rotate(var(--float-rot, 0deg)); }
+    50% { transform: translateY(-12px) rotate(var(--float-rot, 0deg)); }
   }
   @keyframes scan {
-    0%,
-    100% {
-      transform: translateY(0);
-      opacity: 0;
-    }
-    12% {
-      opacity: 1;
-    }
-    88% {
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(150px);
-    }
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    50% { transform: translateY(150px); }
   }
   @keyframes pop {
-    from {
-      opacity: 0;
-      transform: scale(0.6);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
   }
 }
 
 html {
   scroll-behavior: smooth;
-}
-
-/* админ-бар WP + шапка темы: якоря не прячутся под ними */
-[id] {
-  scroll-margin-top: 188px;
-}
-@media (max-width: 1024px) {
-  [id] {
-    scroll-margin-top: 172px;
-  }
 }
 
 body {
@@ -98,11 +70,32 @@ body {
   color: var(--color-ink);
 }
 
+section[id],
+footer[id] {
+  scroll-margin-top: 118px;
+}
+
+/* focus-visible по темам (accessibility) */
+[data-theme="neon"] :focus-visible {
+  outline: 2px solid var(--color-cy);
+  outline-offset: 2px;
+}
+[data-theme="paper"] :focus-visible {
+  outline: 2px solid var(--color-pine);
+  outline-offset: 2px;
+}
+
 /* ---- декоративные слои ---- */
 .grid-paper {
   background-image: linear-gradient(var(--color-mist) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-mist) 1px, transparent 1px);
   background-size: 46px 46px;
+}
+
+.grid-dark {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
 }
 
 .noise-layer {
@@ -138,7 +131,7 @@ body {
   animation-play-state: paused;
 }
 
-/* поля формы */
+/* поля формы (светлая тема) */
 .field {
   @apply w-full rounded-lg border border-ink/15 bg-tape px-4 py-3 text-sm font-medium text-ink placeholder:text-ink/35 outline-none transition-all duration-200;
 }
@@ -149,12 +142,126 @@ body {
   @apply border-tang ring-4 ring-tang/10;
 }
 
-/* тонкий скроллбар в лентах отзывов */
 .snap-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-pine) transparent;
 }
 
+/* ================= NEON THEME ================= */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.text-glow-cy {
+  text-shadow: 0 0 26px rgba(0, 245, 212, 0.5);
+}
+
+.glow-link {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+.glow-link:hover {
+  color: var(--color-cy);
+  text-shadow: 0 0 14px rgba(0, 245, 212, 0.55);
+}
+
+/* floating labels */
+.neon-field {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1.4rem 1rem 0.55rem;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.neon-field::placeholder {
+  color: transparent;
+}
+.neon-field:focus {
+  border-color: rgba(0, 245, 212, 0.6);
+  box-shadow: 0 0 0 4px rgba(0, 245, 212, 0.1), 0 0 26px rgba(0, 245, 212, 0.14);
+}
+.float-label {
+  position: absolute;
+  left: 1rem;
+  top: 1.05rem;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  transition: all 0.22s ease;
+}
+.neon-field:focus ~ .float-label,
+.neon-field:not(:placeholder-shown) ~ .float-label {
+  top: 0.45rem;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-cy);
+}
+select.neon-field {
+  appearance: none;
+  padding: 0.95rem 1rem;
+}
+
+/* ripple на кнопках */
+.ripple-ink {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  opacity: 0.8;
+  animation: ripple 0.65s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* range-слайдер */
+.neon-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-cy) var(--fill, 50%), rgba(255, 255, 255, 0.12) var(--fill, 50%));
+  outline: none;
+}
+.neon-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0d1117;
+  border: 3px solid var(--color-cy);
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.65);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.neon-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+.neon-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0d1117;
+  border: 3px solid var(--color-cy);
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.65);
+  cursor: pointer;
+}
+
+/* ================= REDUCED MOTION ================= */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

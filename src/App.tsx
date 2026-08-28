@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ThemeProvider, useTheme } from "./theme";
 import WpAdminBar from "./components/WpAdminBar";
 import WpHeader from "./components/WpHeader";
+import WpFooter from "./components/WpFooter";
 import Hero from "./components/Hero";
 import Solutions from "./components/Solutions";
 import Catalog from "./components/Catalog";
@@ -10,9 +12,10 @@ import Flow from "./components/Flow";
 import Blog from "./components/Blog";
 import Trust from "./components/Trust";
 import Contact from "./components/Contact";
-import WpFooter from "./components/WpFooter";
+import NeonTheme from "./components/neon/NeonScreens";
 
-export default function App() {
+/** Светлая тема «Microinvest Business» — полный сайт с блогом */
+function PaperSite() {
   const [blogQuery, setBlogQuery] = useState("");
 
   const searchAndGo = (q: string) => {
@@ -23,8 +26,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-paper font-body text-ink">
-      <WpAdminBar />
+    <>
       <WpHeader onSearch={searchAndGo} />
       <main>
         <Hero />
@@ -38,7 +40,40 @@ export default function App() {
         <Contact />
       </main>
       <WpFooter />
+    </>
+  );
+}
+
+function Shell() {
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    document.body.style.background = theme === "neon" ? "#0d1117" : "#f1f2ea";
+    return () => {
+      document.body.style.background = "";
+    };
+  }, [theme]);
+
+  return (
+    <div
+      data-theme={theme}
+      className={
+        theme === "neon"
+          ? "min-h-screen bg-carbon font-body text-white"
+          : "relative min-h-screen bg-paper font-body text-ink"
+      }
+    >
+      <WpAdminBar />
+      {theme === "neon" ? <NeonTheme /> : <PaperSite />}
       <div className="noise-layer" aria-hidden />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <Shell />
+    </ThemeProvider>
   );
 }
