@@ -48,7 +48,7 @@ function Shell() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    document.body.style.background = theme === "neon" ? "#0d1117" : "#f1f2ea";
+    document.body.style.background = theme === "neon" ? "#0d1117" : "#ffffff";
     return () => {
       document.body.style.background = "";
     };

@@ -23,15 +23,15 @@ export const THEMES: ThemeMeta[] = [
   {
     id: "paper",
     name: "Microinvest Business",
-    desc: "Светлая бизнес-тема в духе кассового чека: блог с рубриками и комментариями, виджеты, каталог с табами.",
-    swatch: ["#f1f2ea", "#0f7a4d", "#f0641e", "#ffc24b"],
-    tags: ["Светлая", "Бизнес", "Бесплатно"],
-    version: "2.4.1",
+    desc: "Чистая белая бизнес-тема: блог с рубриками и комментариями, виджеты, каталог с табами, зелёно-оранжевые акценты.",
+    swatch: ["#ffffff", "#0f7a4d", "#f0641e", "#ffc24b"],
+    tags: ["Белая", "Бизнес", "Бесплатно"],
+    version: "2.5.0",
   },
 ];
 
 const ThemeCtx = createContext<{ theme: ThemeId; setTheme: (t: ThemeId) => void }>({
-  theme: "neon",
+  theme: "paper",
   setTheme: () => {},
 });
 
@@ -40,17 +40,17 @@ export const useTheme = () => useContext(ThemeCtx);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>(() => {
     try {
-      const saved = localStorage.getItem("mi-theme");
-      return saved === "paper" || saved === "neon" ? saved : "neon";
+      const saved = localStorage.getItem("mi-theme-v2");
+      return saved === "paper" || saved === "neon" ? saved : "paper";
     } catch {
-      return "neon";
+      return "paper";
     }
   });
 
   const setTheme = (t: ThemeId) => {
     setThemeState(t);
     try {
-      localStorage.setItem("mi-theme", t);
+      localStorage.setItem("mi-theme-v2", t);
     } catch {
       /* noop */
     }
